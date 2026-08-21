@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+plotly
+statsmodels
+scipy
+groq
+wordcloud
+scikit-learn
+python-dotenv
