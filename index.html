@@ -82,10 +82,15 @@
     color:var(--ink);
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:10px;
   }
-  .brand .dot{
-    width:8px;height:8px;background:var(--teal);border-radius:1px;display:inline-block;
+  .brand .avatar{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid var(--line);
+    display:block;
   }
   .navlinks{
     display:flex;
@@ -107,6 +112,24 @@
     color:var(--teal);
     border-color:var(--teal);
   }
+
+  /* Mobile menu toggle */
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    width:38px;
+    height:38px;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .nav-toggle svg{width:18px;height:18px;}
+  .nav-toggle .icon-close{display:none;}
+  header.menu-open .nav-toggle .icon-open{display:none;}
+  header.menu-open .nav-toggle .icon-close{display:block;}
   a:focus-visible, button:focus-visible{
     outline:2px solid var(--teal);
     outline-offset:3px;
@@ -271,6 +294,15 @@
     max-width:60ch;
   }
   .about-grid p + p{margin-top:16px;}
+  .about-photo{
+    width:104px;
+    height:104px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid var(--line);
+    margin-bottom:24px;
+    display:block;
+  }
   .facts{
     border-top:1px solid var(--line);
   }
@@ -457,10 +489,30 @@
     .project .idx{padding-top:0;}
     .arrow{display:none;}
     .contact-wrap{grid-template-columns:1fr;}
-    .navlinks{gap:16px;}
   }
-  @media (max-width:520px){
-    .navlinks a:nth-child(1){display:none;}
+  @media (max-width:700px){
+    .nav-toggle{display:flex;}
+    .navlinks{
+      position:absolute;
+      top:100%;
+      left:0;
+      right:0;
+      flex-direction:column;
+      gap:0;
+      background:var(--paper);
+      border-bottom:1px solid var(--line);
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .25s ease;
+    }
+    header.menu-open .navlinks{
+      max-height:220px;
+    }
+    .navlinks a{
+      padding:16px 28px;
+      border-bottom:1px solid var(--line);
+      font-size:15px;
+    }
     nav.wrap{height:56px;}
     .hero{padding:56px 0 40px;}
   }
@@ -468,14 +520,18 @@
 </head>
 <body>
 
-<header>
+<header id="site-header">
   <nav class="wrap">
-    <a href="#top" class="brand"><span class="dot"></span>Vanessa Cavalcante</a>
+    <a href="#top" class="brand"><img src="./assets/avatar.jpg" alt="Foto de Vanessa Cavalcante" class="avatar">Vanessa Cavalcante</a>
     <ul class="navlinks">
       <li><a href="#sobre">Sobre</a></li>
       <li><a href="#projetos">Projetos</a></li>
       <li><a href="#contato">Contato</a></li>
     </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="site-header">
+      <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
   </nav>
 </header>
 
@@ -514,6 +570,7 @@
       </div>
       <div class="about-grid">
         <div>
+          <img src="./assets/avatar.jpg" alt="Foto de Vanessa Cavalcante" class="about-photo">
           <p>Sou estudante de Estatística, interessada em como métodos de amostragem e modelos preditivos se comportam diante de dados reais — nem sempre bem-comportados, quase sempre reveladores.</p>
           <p>Meus projetos partem de perguntas concretas: qual estratégia de alocação estima melhor uma população heterogênea? Um modelo estatístico clássico ainda compete com machine learning na prática? Gosto de responder essas perguntas com dados públicos, como os do DataSUS, e código aberto.</p>
           <div class="tools">
@@ -619,5 +676,19 @@
   © 2026 Vanessa Cavalcante — feito com estatística, Python e R.
 </footer>
 
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  toggle.addEventListener('click', () => {
+    const isOpen = header.classList.toggle('menu-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  document.querySelectorAll('.navlinks a').forEach(link => {
+    link.addEventListener('click', () => {
+      header.classList.remove('menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 </body>
 </html>
