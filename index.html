@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanessa Cavalcante — Estatística Aplicada</title>
+<meta name="description" content="Portfólio de Vanessa Cavalcante, estudante de Estatística. Projetos em amostragem estratificada e predição de lucro de startups com Python e R.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F4EF;
+    --paper-dim:#EDEAE1;
+    --ink:#202B26;
+    --ink-soft:#4B564F;
+    --teal:#1F5C52;
+    --indigo:#3B4B6B;
+    --ochre:#C89B3C;
+    --clay:#B5645A;
+    --line: rgba(32,43,38,0.14);
+    --radius: 3px;
+    --maxw: 1040px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:inherit;}
+
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(246,244,239,0.88);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:18px;
+    text-decoration:none;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand .dot{
+    width:8px;height:8px;background:var(--teal);border-radius:1px;display:inline-block;
+  }
+  .navlinks{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    margin:0;padding:0;
+  }
+  .navlinks a{
+    text-decoration:none;
+    font-size:14px;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.02em;
+    padding:4px 2px;
+    border-bottom:1px solid transparent;
+    transition:border-color .18s ease, color .18s ease;
+  }
+  .navlinks a:hover, .navlinks a:focus-visible{
+    color:var(--teal);
+    border-color:var(--teal);
+  }
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:1px;background:var(--teal);
+  }
+  .hero h1{
+    font-size:clamp(38px, 5.2vw, 58px);
+    line-height:1.04;
+    color:var(--ink);
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--teal);
+  }
+  .hero p.lead{
+    margin-top:22px;
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:46ch;
+  }
+  .hero .cta-row{
+    margin-top:34px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13.5px;
+    letter-spacing:0.02em;
+    padding:12px 20px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .18s ease, background .18s ease, color .18s ease;
+    border:1px solid var(--ink);
+  }
+  .btn.primary{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .btn.primary:hover{
+    background:var(--teal);
+    border-color:var(--teal);
+    transform:translateY(-1px);
+  }
+  .btn.ghost{
+    background:transparent;
+    color:var(--ink);
+  }
+  .btn.ghost:hover{
+    background:var(--paper-dim);
+    transform:translateY(-1px);
+  }
+
+  /* Strata graphic — signature element */
+  .strata{
+    position:relative;
+    height:320px;
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    padding-bottom:28px;
+    border-bottom:1px solid var(--line);
+  }
+  .strata .bar{
+    flex:1;
+    border-radius:2px 2px 0 0;
+    transform:scaleY(0);
+    transform-origin:bottom;
+    animation:grow 0.9s cubic-bezier(.22,.9,.3,1) forwards;
+    position:relative;
+  }
+  .strata .bar span{
+    position:absolute;
+    bottom:-24px;
+    left:50%;
+    transform:translateX(-50%);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  @keyframes grow{
+    to{transform:scaleY(1);}
+  }
+  .bar:nth-child(1){height:46%; background:var(--indigo); animation-delay:.05s;}
+  .bar:nth-child(2){height:78%; background:var(--teal); animation-delay:.15s;}
+  .bar:nth-child(3){height:34%; background:var(--ochre); animation-delay:.25s;}
+  .bar:nth-child(4){height:92%; background:var(--teal); animation-delay:.35s;}
+  .bar:nth-child(5){height:58%; background:var(--clay); animation-delay:.45s;}
+  .bar:nth-child(6){height:66%; background:var(--indigo); animation-delay:.55s;}
+  .strata-caption{
+    margin-top:34px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    text-align:center;
+    letter-spacing:0.03em;
+  }
+
+  /* ---------- SECTION generic ---------- */
+  section{
+    padding:76px 0;
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:44px;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:clamp(26px,3vw,34px);
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:56px;
+  }
+  .about-grid p{
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:60ch;
+  }
+  .about-grid p + p{margin-top:16px;}
+  .facts{
+    border-top:1px solid var(--line);
+  }
+  .fact{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .fact .k{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--ink-soft);
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding-top:2px;
+  }
+  .fact .v{
+    text-align:right;
+    max-width:60%;
+  }
+  .tools{
+    margin-top:28px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    padding:7px 14px;
+    border:1px solid var(--ink);
+    border-radius:20px;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+  }
+  .pill .sw{
+    width:8px;height:8px;border-radius:50%;
+  }
+  .pill.python .sw{background:var(--indigo);}
+  .pill.r .sw{background:var(--teal);}
+
+  /* ---------- PROJECTS ---------- */
+  .projects{
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .project{
+    background:var(--paper);
+    padding:40px;
+    display:grid;
+    grid-template-columns:56px 1fr auto;
+    gap:28px;
+    align-items:start;
+    text-decoration:none;
+    color:var(--ink);
+    transition:background .2s ease;
+  }
+  .project:hover, .project:focus-visible{
+    background:var(--paper-dim);
+  }
+  .project .idx{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    padding-top:4px;
+  }
+  .project h3{
+    font-size:22px;
+    margin-bottom:10px;
+  }
+  .project p{
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:60ch;
+    margin:0 0 16px;
+  }
+  .tags{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.03em;
+    padding:4px 10px;
+    background:var(--paper-dim);
+    border-radius:2px;
+    color:var(--ink-soft);
+  }
+  .mini-strata{
+    display:flex;
+    align-items:flex-end;
+    gap:4px;
+    height:44px;
+    padding-top:6px;
+  }
+  .mini-strata i{
+    width:6px;
+    display:block;
+    border-radius:1px;
+  }
+  .arrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:18px;
+    color:var(--ink-soft);
+    align-self:center;
+    transition:transform .18s ease;
+  }
+  .project:hover .arrow{
+    transform:translateX(4px);
+    color:var(--teal);
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-wrap{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:end;
+  }
+  .contact-wrap h2{
+    font-size:clamp(30px,4vw,44px);
+    max-width:14ch;
+  }
+  .contact-links{
+    display:flex;
+    flex-direction:column;
+  }
+  .contact-links a{
+    text-decoration:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+    font-size:16px;
+  }
+  .contact-links a .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+  .contact-links a .val{
+    font-size:15.5px;
+  }
+  .contact-links a .go{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--ink-soft);
+    transition:transform .18s ease, color .18s ease;
+  }
+  .contact-links a:hover .go{
+    transform:translateX(4px);
+    color:var(--teal);
+  }
+
+  footer{
+    padding:32px 0 48px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr; gap:56px;}
+    .strata{order:-1; height:220px;}
+    .about-grid{grid-template-columns:1fr; gap:36px;}
+    .fact .v{text-align:left;}
+    .fact{flex-direction:column; gap:4px;}
+    .project{grid-template-columns:1fr; gap:14px;}
+    .project .idx{padding-top:0;}
+    .arrow{display:none;}
+    .contact-wrap{grid-template-columns:1fr;}
+    .navlinks{gap:16px;}
+  }
+  @media (max-width:520px){
+    .navlinks a:nth-child(1){display:none;}
+    nav.wrap{height:56px;}
+    .hero{padding:56px 0 40px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="brand"><span class="dot"></span>Vanessa Cavalcante</a>
+    <ul class="navlinks">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" style="border-top:none;">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Estatística aplicada</div>
+        <h1>A amostra certa<br>decide antes do<br><em>modelo perfeito.</em></h1>
+        <p class="lead">Estudante de Estatística com projetos em técnicas de amostragem e modelagem preditiva, unindo <span class="mono">Python</span> e <span class="mono">R</span> para transformar dados reais em decisões melhores.</p>
+        <div class="cta-row">
+          <a href="#projetos" class="btn primary">Ver projetos ↓</a>
+          <a href="#contato" class="btn ghost">Falar comigo</a>
+        </div>
+      </div>
+      <div>
+        <div class="strata" aria-hidden="true">
+          <div class="bar"><span>n₁</span></div>
+          <div class="bar"><span>n₂</span></div>
+          <div class="bar"><span>n₃</span></div>
+          <div class="bar"><span>n₄</span></div>
+          <div class="bar"><span>n₅</span></div>
+          <div class="bar"><span>n₆</span></div>
+        </div>
+        <div class="strata-caption">alocação de amostra por estrato — proporcional · uniforme · Neyman</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Sobre</h2>
+        <span class="section-num mono">01</span>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>Sou estudante de Estatística, interessada em como métodos de amostragem e modelos preditivos se comportam diante de dados reais — nem sempre bem-comportados, quase sempre reveladores.</p>
+          <p>Meus projetos partem de perguntas concretas: qual estratégia de alocação estima melhor uma população heterogênea? Um modelo estatístico clássico ainda compete com machine learning na prática? Gosto de responder essas perguntas com dados públicos, como os do DataSUS, e código aberto.</p>
+          <div class="tools">
+            <span class="pill python"><span class="sw"></span>Python</span>
+            <span class="pill r"><span class="sw"></span>R</span>
+          </div>
+        </div>
+        <div class="facts">
+          <div class="fact">
+            <span class="k mono">Área</span>
+            <span class="v">Estatística</span>
+          </div>
+          <div class="fact">
+            <span class="k mono">Foco</span>
+            <span class="v">Amostragem &amp; modelagem preditiva</span>
+          </div>
+          <div class="fact">
+            <span class="k mono">Ferramentas</span>
+            <span class="v">Python, R</span>
+          </div>
+          <div class="fact">
+            <span class="k mono">Fonte de dados</span>
+            <span class="v">DataSUS e bases públicas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projetos">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Projetos</h2>
+        <span class="section-num mono">02</span>
+      </div>
+
+      <div class="projects">
+        <a class="project" href="./Amostragem%20estratificada" target="_blank" rel="noopener">
+          <span class="idx mono">01</span>
+          <div>
+            <h3>Amostragem Estratificada</h3>
+            <p>Comparação entre alocação proporcional, uniforme e alocação de Neyman, aplicadas a dados reais do DataSUS — avaliando precisão das estimativas em cada estratégia.</p>
+            <div class="tags">
+              <span class="tag">Proporcional</span>
+              <span class="tag">Uniforme</span>
+              <span class="tag">Neyman</span>
+              <span class="tag">DataSUS</span>
+            </div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+
+        <a class="project" href="./Predição%20de%20lucro%20de%20startups" target="_blank" rel="noopener">
+          <span class="idx mono">02</span>
+          <div>
+            <h3>Predição de Lucro de Startups</h3>
+            <p>Avaliação comparativa entre regressão linear múltipla e modelos de aprendizado de máquina na predição de lucro, discutindo desempenho e interpretabilidade.</p>
+            <div class="tags">
+              <span class="tag">Regressão Múltipla</span>
+              <span class="tag">Machine Learning</span>
+            </div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="wrap">
+      <div class="contact-wrap">
+        <h2>Vamos conversar sobre dados.</h2>
+        <div class="contact-links">
+          <a href="https://github.com/vanessacavalcante-lang" target="_blank" rel="noopener">
+            <span>
+              <span class="label mono">GitHub</span><br>
+              <span class="val">@vanessacavalcante-lang</span>
+            </span>
+            <span class="go mono">↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/vanessa-cavalcante-da-silva-4756a5231" target="_blank" rel="noopener">
+            <span>
+              <span class="label mono">LinkedIn</span><br>
+              <span class="val">Vanessa Cavalcante</span>
+            </span>
+            <span class="go mono">↗</span>
+          </a>
+          <a href="mailto:vanessacavalvante475@gmail.com">
+            <span>
+              <span class="label mono">E-mail</span><br>
+              <span class="val">vanessacavalvante475@gmail.com</span>
+            </span>
+            <span class="go mono">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Vanessa Cavalcante — feito com estatística, Python e R.
+</footer>
+
+</body>
+</html>
