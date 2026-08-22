@@ -401,6 +401,14 @@
     border-radius:2px;
     color:var(--ink-soft);
   }
+  a.tag{
+    text-decoration:none;
+    transition:background .15s ease, color .15s ease;
+  }
+  a.tag:hover, a.tag:focus-visible{
+    background:var(--teal);
+    color:#fff;
+  }
   .mini-strata{
     display:flex;
     align-items:flex-end;
@@ -611,7 +619,7 @@
       </div>
 
       <div class="projects">
-        <a class="project" href="./Amostragem%20estratificada/Amostragem%20Estratificada%20-%20Slides.pptx" target="_blank" rel="noopener">
+        <div class="project">
           <span class="idx mono">01</span>
           <div>
             <h3>Amostragem Estratificada</h3>
@@ -622,11 +630,15 @@
               <span class="tag">Neyman</span>
               <span class="tag">DataSUS</span>
             </div>
+            <div class="tags">
+              <a class="tag" href="./Amostragem%20estratificada/AMOSTRAGEM2.pdf" target="_blank" rel="noopener">Artigo ↗</a>
+              <a class="tag" href="./Amostragem%20estratificada/Amostragem%20Estratificada%20-%20Slides.pptx" target="_blank" rel="noopener">Slides ↗</a>
+              <a class="tag" href="./Amostragem%20estratificada/tratando_base_dados_SIM%20(1).R" target="_blank" rel="noopener">Código ↗</a>
+            </div>
           </div>
-          <span class="arrow">→</span>
-        </a>
+        </div>
 
-        <a class="project" href="./Predição%20de%20lucro%20de%20startups/portifolio.pdf" target="_blank" rel="noopener">
+        <div class="project">
           <span class="idx mono">02</span>
           <div>
             <h3>Predição de Lucro de Startups</h3>
@@ -635,9 +647,13 @@
               <span class="tag">Regressão Múltipla</span>
               <span class="tag">Machine Learning</span>
             </div>
+            <div class="tags">
+              <a class="tag" href="./Predição%20de%20lucro%20de%20startups/Determinantes_Desempenho_Startups_Revisado_Com_Citacoes_Final.pdf" target="_blank" rel="noopener">Artigo ↗</a>
+              <a class="tag" href="./Predição%20de%20lucro%20de%20startups/portifolio.pdf" target="_blank" rel="noopener">Portfólio ↗</a>
+              <a class="tag" href="./Predição%20de%20lucro%20de%20startups/Artigo%20Vanessa.R" target="_blank" rel="noopener">Código ↗</a>
+            </div>
           </div>
-          <span class="arrow">→</span>
-        </a>
+        </div>
 
         <a class="project" href="https://consultoriaestatistica-kbvturlininhiz5yklxxmn.streamlit.app/" target="_blank" rel="noopener">
           <span class="idx mono">03</span>
@@ -677,7 +693,7 @@
           <span class="idx mono">02</span>
           <div>
             <h3>Linguagem R para Análise de Dados</h3>
-            <p>Udemy</p>
+            <p>Especialização — Udemy</p>
           </div>
         </div>
       </div>
